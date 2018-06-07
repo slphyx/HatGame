@@ -1,3 +1,3 @@
 # HatGame
 
-https://github.com/slphyx/HatGame
+https://slphyx.shinyapps.io/HatGame/
