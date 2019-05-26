@@ -4,6 +4,9 @@
 require("igraph")
 
 #generate network
+# This model is very simple, 
+# every possible edge is created with the same constant probability.
+# probability is caculated from R0/npop
 randomNetwork <- function(npop,R0){
   g <- sample_gnp(npop, R0/npop)
   return(g)
@@ -71,16 +74,36 @@ stateColors <- function(state){
   return(state.cols)
 }
 
+#for vertex.label.color
+stateLabelColors <- function(state){
+  #sensitive = "green", infected = "red", recovered = "blue"
+  state.lab.cols <- rep(NA,length(state))
+  for(i in 1:length(state)){
+    if(state[i]==0){
+      state.lab.cols[i] <- "black"
+    }
+    if(state[i]==1){
+      state.lab.cols[i] <- "black"
+    }
+    if(state[i]==2){
+      state.lab.cols[i] <- "white"
+    }
+  }
+  return(state.lab.cols)
+}
+
+
 #plot contact network
 plotNetwork <- function(g, state, layout=NULL){
   state.cols <- stateColors(state)
-  
+  state.lab.cols <- stateLabelColors(state)
+
   if(!is.null(layout)){
-    plot(g, vertex.color=state.cols, layout=layout)
+    plot(g, vertex.color=state.cols, layout=layout, vertex.size=20, vertex.label.color=state.lab.cols)
   }
   else
   {
-    plot(g, vertex.color=state.cols)
+    plot(g, vertex.color=state.cols,vertex.size= 20, vertex.label.color=state.lab.cols)
   }
 }
 
@@ -94,10 +117,11 @@ stateCount <- function(state){
 }
 
 #plotting the infected cases
+# plot the graph only when n.points > 2
 plotInfected <- function(df){
   n.points <- nrow(df)
   if(n.points > 2){
-    plot(df, col = "red", type = 'l', xlab = "time", ylab = "infected cases")
+    plot(df, xlab = "time", ylab = "infected cases", type="o", pch=22, lty=2, col="black", lwd=2)
   }else{
     NULL
   }
