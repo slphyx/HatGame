@@ -121,7 +121,9 @@ stateCount <- function(state){
 plotInfected <- function(df){
   n.points <- nrow(df)
   if(n.points > 2){
-    plot(df, xlab = "time", ylab = "infected cases", type="o", pch=22, lty=2, col="black", lwd=2)
+    plot(df, xlab = "time", ylab = "infected cases", 
+         type="o", pch=4, cex = 1.5, col="black", lwd=2,
+         cex.lab=1.5, cex.axis=1.25)
   }else{
     NULL
   }
